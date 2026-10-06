@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esquela de Solicitud de Corte - TeleCable</title>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #cccccc;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+    }
+
+    .form-container {
+      max-width: 750px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .header h2 {
+      margin: 2px 0;
+      color: var(--primary-color);
+    }
+
+    .header h3 {
+      margin: 2px 0;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      color: #111;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 3px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 13px;
+      background-color: #fff;
+    }
+
+    .grid-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 6px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .checkbox-label input {
+      margin-right: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 50px;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn-print {
+      flex: 1;
+      background-color: #28a745;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      flex: 2;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      font-weight: bold;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-print:hover { background-color: #218838; }
+
+    .row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    .signature-area {
+      display: none;
+    }
+
+    /* ESTILOS DE IMPRESIÓN EN 1 HOJA TAMAÑO CARTA */
+    @page {
+      size: letter portrait;
+      margin: 8mm 10mm;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+        padding: 0;
+        font-size: 11px;
+      }
+
+      .form-container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+        border: none;
+      }
+
+      .btn-container {
+        display: none !important;
+      }
+
+      .header {
+        border-bottom: 1px solid #000;
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+      }
+
+      .header h2 {
+        font-size: 18px;
+        color: #000;
+      }
+
+      .header h3 {
+        font-size: 13px;
+      }
+
+      .section-title {
+        font-size: 12px;
+        margin-top: 8px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      label {
+        font-size: 11px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="time"],
+      select,
+      textarea {
+        border: none;
+        border-bottom: 1px solid #000;
+        border-radius: 0;
+        padding: 1px;
+        font-size: 11px;
+        background: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      textarea {
+        height: 30px;
+      }
+
+      .grid-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px 10px;
+      }
+
+      .checkbox-label {
+        font-size: 11px;
+      }
+
+      .signature-area {
+        display: block;
+        margin-top: 25px;
+        text-align: center;
+      }
+
+      .signature-line {
+        width: 220px;
+        margin: 0 auto;
+        border-top: 1px solid #000;
+        padding-top: 4px;
+        font-weight: bold;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="header">
+    <h2>TeleCable Granada</h2>
+    <h3>Esquela de Solicitud de Corte</h3>
+  </div>
+
+  <form id="corteForm">
+    
+    <!-- Fecha y Hora -->
+    <div class="row">
+      <div class="form-group">
+        <label for="fecha_solicitud">Fecha de Solicitud:</label>
+        <input type="date" id="fecha_solicitud" name="fecha_solicitud" required>
+      </div>
+      <div class="form-group">
+        <label for="hora_solicitud">Hora de Solicitud:</label>
+        <input type="time" id="hora_solicitud" name="hora_solicitud" required>
+      </div>
+    </div>
+
+    <!-- Servicio a retirar -->
+    <div class="section-title">Servicio a retirar:</div>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="radio" name="servicio_retirar" value="TV" required> TV</label>
+      <label class="checkbox-label"><input type="radio" name="servicio_retirar" value="Internet"> Internet</label>
+      <label class="checkbox-label"><input type="radio" name="servicio_retirar" value="TV + Internet"> TV + Internet</label>
+    </div>
+
+    <!-- Velocidad contratada -->
+    <div class="section-title">Velocidad de Internet contratada:</div>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="35 Mbps"> 35 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="60 Mbps"> 60 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="80 Mbps"> 80 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="100 Mbps"> 100 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="120 Mbps"> 120 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="150 Mbps"> 150 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="200 Mbps"> 200 Mbps</label>
+      <label class="checkbox-label"><input type="radio" name="velocidad" value="250 Mbps"> 250 Mbps</label>
+    </div>
+
+    <!-- Motivos de cancelación -->
+    <div class="section-title">Motivo de cancelación:</div>
+
+    <label style="font-size: 11px; color: #555;">No puedo continuar pagando el servicio:</label>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Fallecimiento"> Fallecimiento</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Reducción de gastos"> Reducción de gastos</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Desempleo"> Desempleo</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Motivos personales"> Motivos personales</label>
+    </div>
+
+    <label style="font-size: 11px; color: #555; margin-top: 4px;">No utilizo el servicio:</label>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Quería solo internet"> Quería solo internet</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Paso fuera de casa"> Paso fuera de casa</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Temporal"> Temporal</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="TV o Dispositivo dañado"> TV o Dispositivo dañado</label>
+    </div>
+
+    <label style="font-size: 11px; color: #555; margin-top: 4px;">No recibí buena atención al cliente por parte de:</label>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Atención: Colector"> Colector</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Atención: Técnicos"> Técnicos</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Atención: Call Center"> Call Center</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Atención: Personal de sucursal"> Personal de sucursal</label>
+    </div>
+
+    <label style="font-size: 11px; color: #555; margin-top: 4px;">No hay calidad en el servicio:</label>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Calidad: Inestabilidad de internet"> Inestabilidad de internet</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Calidad: Lentitud en el internet"> Lentitud en el internet</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Calidad: No reportó avería"> No reportó avería</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Calidad: Mala señal de TV"> Mala señal de TV</label>
+    </div>
+
+    <label style="font-size: 11px; color: #555; margin-top: 4px;">Otros:</label>
+    <div class="grid-options">
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Por motivos de viaje"> Por motivos de viaje</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Cambio de domicilio"> Cambio de domicilio</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Desacuerdo con método de cobro"> Desacuerdo con método de cobro</label>
+      <label class="checkbox-label"><input type="checkbox" name="motivo" value="Cambio de compañía"> Cambio de compañía</label>
+    </div>
+
+    <!-- Observaciones -->
+    <div class="form-group" style="margin-top: 10px;">
+      <label for="observacion">Observación:</label>
+      <textarea id="observacion" name="observacion" placeholder="Ejemplo: Corte Inmediato - Mes pagado Septiembre. Módem entregado en oficina."></textarea>
+    </div>
+
+    <!-- Datos del Titular y Gestor -->
+    <div class="section-title">Datos del Titular y Gestión:</div>
+    
+    <div class="form-group">
+      <label for="nombre_completo">Nombre completo del cliente:</label>
+      <input type="text" id="nombre_completo" name="nombre_completo" required>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="no_contrato">No. Contrato:</label>
+        <input type="text" id="no_contrato" name="no_contrato" required>
+      </div>
+      <div class="form-group">
+        <label for="identificacion">Identificación (Cédula):</label>
+        <input type="text" id="identificacion" name="identificacion" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gestor">Gestor / Atendido por:</label>
+      <select id="gestor" name="gestor" required>
+        <option value="" disabled selected>-- Seleccione un Gestor --</option>
+        <option value="Alejandro Reyes">Alejandro Reyes</option>
+        <option value="Holman Cuevas">Holman Cuevas</option>
+        <option value="Jose Miguel Mendoza">Jose Miguel Mendoza</option>
+        <option value="Jose Brizuela">Jose Brizuela</option>
+        <option value="Geovanny Manzanarez">Geovanny Manzanarez</option>
+      </select>
+    </div>
+
+    <!-- Área de Firma (Solo en impresión) -->
+    <div class="signature-area">
+      <div class="signature-line">Firma del cliente</div>
+    </div>
+
+    <!-- Botones -->
+    <div class="btn-container">
+      <button type="button" class="btn-print" id="btnImprimir" onclick="imprimirEsquela()">1. Imprimir Esquela</button>
+      <button type="submit" class="btn-submit" id="btnEnviar" disabled>2. Guardar Solicitud</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function setFechaHoraActual() {
+    const ahora = new Date();
+    document.getElementById('fecha_solicitud').valueAsDate = ahora;
+    
+    const horas = String(ahora.getHours()).padStart(2, '0');
+    const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    document.getElementById('hora_solicitud').value = `${horas}:${minutos}`;
+  }
+
+  setFechaHoraActual();
+
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvGqGbl6ZmKmBn7D5tRQyElTwh3_jyZmInKDyX37DD-5LM1Je12GHe7FW220u95q6dCQ/exec";
+
+  function imprimirEsquela() {
+    window.print();
+    
+    const btnEnviar = document.getElementById('btnEnviar');
+    btnEnviar.disabled = false;
+    btnEnviar.style.opacity = "1";
+    btnEnviar.style.cursor = "pointer";
+  }
+
+  document.getElementById('corteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled = true;
+    btn.innerText = "Guardando...";
+
+    const motivosChecked = Array.from(document.querySelectorAll('input[name="motivo"]:checked'))
+                                .map(cb => cb.value)
+                                .join(', ');
+
+    const formData = {
+      fecha_solicitud: document.getElementById('fecha_solicitud').value,
+      hora_solicitud: document.getElementById('hora_solicitud').value,
+      servicio_retirar: document.querySelector('input[name="servicio_retirar"]:checked')?.value || '',
+      velocidad: document.querySelector('input[name="velocidad"]:checked')?.value || 'N/A',
+      motivos: motivosChecked,
+      observacion: document.getElementById('observacion').value,
+      nombre_completo: document.getElementById('nombre_completo').value,
+      no_contrato: document.getElementById('no_contrato').value,
+      identificacion: document.getElementById('identificacion').value,
+      gestor: document.getElementById('gestor').value
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(() => {
+      alert('Solicitud guardada con éxito en Google Sheets');
+      
+      document.getElementById('corteForm').reset();
+      setFechaHoraActual();
+      
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Ocurrió un error al guardar.');
+      btn.disabled = false;
+    })
+    .finally(() => {
+      btn.innerText = "2. Guardar Solicitud";
+    });
+  });
+</script>
+
+</body>
+</html>
